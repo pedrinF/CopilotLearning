@@ -1,18 +1,27 @@
+
+# --- Copilot Agent Mode ---
+# Este script utiliza o modo agente do Copilot para popular o banco de dados com dados de teste.
+# Cada etapa é registrada e explicada para facilitar a auditoria e depuração.
+
 from django.core.management.base import BaseCommand
 from octofit_tracker.models import User, Team, Activity, Leaderboard, Workout
 
 class Command(BaseCommand):
-    help = 'Populate the database with test data'
+    help = 'Populate the database with test data using Copilot agent mode'
 
     def handle(self, *args, **kwargs):
+        self.stdout.write("[Copilot Agent] Iniciando a população do banco de dados...")
+
         # Limpar dados existentes
+        self.stdout.write("[Copilot Agent] Limpando dados antigos...")
         User.objects.all().delete()
         Team.objects.all().delete()
         Activity.objects.all().delete()
         Leaderboard.objects.all().delete()
         Workout.objects.all().delete()
 
-        # Test data for users
+        # Usuários de teste
+        self.stdout.write("[Copilot Agent] Adicionando usuários de teste...")
         users = [
             {'email': 'sarah@monahigh.edu', 'name': 'Sarah Johnson'},
             {'email': 'mike@monahigh.edu', 'name': 'Mike Anderson'},
@@ -23,13 +32,12 @@ class Command(BaseCommand):
             {'email': 'pedro@monahigh.edu', 'name': 'Pedro Oliveira'},
             {'email': 'ana@monahigh.edu', 'name': 'Ana Pereira'}
         ]
-        created_users = []
         for user_data in users:
             user = User.objects.create(**user_data)
-            created_users.append(user)
-            self.stdout.write(f'Created user: {user.name}')
+            self.stdout.write(f"[Copilot Agent] Usuário criado: {user.name} ({user.email})")
 
-        # Test data for teams
+        # Equipes de teste
+        self.stdout.write("[Copilot Agent] Adicionando equipes de teste...")
         teams = [
             {
                 'name': 'Track Stars',
@@ -46,9 +54,10 @@ class Command(BaseCommand):
         ]
         for team_data in teams:
             team = Team.objects.create(**team_data)
-            self.stdout.write(f'Created team: {team.name}')
+            self.stdout.write(f"[Copilot Agent] Equipe criada: {team.name} (membros: {', '.join(team.members)})")
 
-        # Test data for activities
+        # Atividades de teste
+        self.stdout.write("[Copilot Agent] Adicionando atividades de teste...")
         activities = [
             {'user_email': 'sarah@monahigh.edu', 'activity_type': 'Running', 'duration': 45},
             {'user_email': 'mike@monahigh.edu', 'activity_type': 'Swimming', 'duration': 30},
@@ -58,7 +67,6 @@ class Command(BaseCommand):
             {'user_email': 'maria@monahigh.edu', 'activity_type': 'Yoga', 'duration': 75},
             {'user_email': 'pedro@monahigh.edu', 'activity_type': 'Weightlifting', 'duration': 55},
             {'user_email': 'ana@monahigh.edu', 'activity_type': 'Pilates', 'duration': 45},
-            # Atividades adicionais para mostrar consistência
             {'user_email': 'sarah@monahigh.edu', 'activity_type': 'Cycling', 'duration': 40},
             {'user_email': 'mike@monahigh.edu', 'activity_type': 'Running', 'duration': 35},
             {'user_email': 'emma@monahigh.edu', 'activity_type': 'Yoga', 'duration': 50},
@@ -66,9 +74,10 @@ class Command(BaseCommand):
         ]
         for activity_data in activities:
             activity = Activity.objects.create(**activity_data)
-            self.stdout.write(f'Created activity: {activity.activity_type} for {activity.user_email}')
+            self.stdout.write(f"[Copilot Agent] Atividade criada: {activity.activity_type} para {activity.user_email} ({activity.duration} min)")
 
-        # Test data for leaderboard
+        # Leaderboard de teste
+        self.stdout.write("[Copilot Agent] Adicionando leaderboard de teste...")
         leaderboard = [
             {'user_email': 'sarah@monahigh.edu', 'score': 850},
             {'user_email': 'mike@monahigh.edu', 'score': 720},
@@ -81,9 +90,10 @@ class Command(BaseCommand):
         ]
         for score_data in leaderboard:
             score = Leaderboard.objects.create(**score_data)
-            self.stdout.write(f'Created leaderboard entry for: {score.user_email}')
+            self.stdout.write(f"[Copilot Agent] Leaderboard: {score.user_email} com {score.score} pontos")
 
-        # Test data for workouts
+        # Workouts de teste
+        self.stdout.write("[Copilot Agent] Adicionando workouts de teste...")
         workouts = [
             {
                 'name': 'Morning Cardio Blast',
@@ -112,6 +122,6 @@ class Command(BaseCommand):
         ]
         for workout_data in workouts:
             workout = Workout.objects.create(**workout_data)
-            self.stdout.write(f'Created workout: {workout.name}')
+            self.stdout.write(f"[Copilot Agent] Workout criado: {workout.name}")
 
-        self.stdout.write(self.style.SUCCESS('Successfully populated database with test data'))
+        self.stdout.write(self.style.SUCCESS('[Copilot Agent] Banco de dados populado com sucesso!'))
