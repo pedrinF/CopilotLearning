@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "octofit_app",
     "corsheaders",
+    "djongo",
 ]
 
 MIDDLEWARE = [
